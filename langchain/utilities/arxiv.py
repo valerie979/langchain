@@ -85,23 +85,8 @@ class ArxivAPIWrapper(BaseModel):
             return "No good Arxiv Result was found"
 
     def load(self, query: str) -> List[Document]:
-        """
-        Run Arxiv search and get the article texts plus the article meta information.
-        See https://lukasschwab.me/arxiv.py/index.html#Search
-
-        Returns: a list of documents with the document.page_content in text format
-
-        """
         try:
-            import fitz
-        except ImportError:
-            raise ImportError(
-                "PyMuPDF package not found, please install it with "
-                "`pip install pymupdf`"
-            )
-
-        try:
-            results = self.arxiv_search(  # type: ignore
+            results = self.arxiv_search(
                 query[: self.ARXIV_MAX_QUERY_LENGTH], max_results=self.load_max_docs
             ).results()
         except self.arxiv_exceptions as ex:
